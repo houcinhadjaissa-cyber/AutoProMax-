@@ -1,5 +1,13 @@
 import { Icon } from './Icon'
-import type { Product } from '../data/products'
+
+// Export the Product interface
+export interface Product {
+  id: string
+  name: string
+  price: number
+  image?: string
+  category?: string
+}
 
 export interface ProductCardProps {
   product: Product
