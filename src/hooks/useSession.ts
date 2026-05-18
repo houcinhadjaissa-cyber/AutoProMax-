@@ -9,7 +9,7 @@ export function useSession() {
   const [remainingMs, setRemainingMs] = useState(0)
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: ReturnType<typeof setInterval>
     if (isActive && startTime > 0) {
       interval = setInterval(() => {
         const elapsed = Date.now() - startTime
@@ -20,7 +20,11 @@ export function useSession() {
         }
       }, 1000)
     }
-    return () => clearInterval(interval)
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
   }, [isActive, startTime])
 
   const start = (email?: string) => {
