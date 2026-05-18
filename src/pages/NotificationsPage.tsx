@@ -1,0 +1,3 @@
+export default function NotificationsPage() {
+  return <div className="p-4 text-white"><h1>Notifications</h1></div>
+}
