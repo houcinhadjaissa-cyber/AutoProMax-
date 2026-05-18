@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,300;1,14..32,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-apm-bg: #0D0D0D;
+  --color-apm-surface: #111111;
+  --color-apm-card: #1A1A1A;
+  --color-apm-elevated: #242424;
+  --color-apm-border: rgba(255, 255, 255, 0.08);
+  --color-apm-blue: #2563EB;
+  --color-apm-green: #10B981;
+  --color-apm-amber: #F59E0B;
+  --color-apm-red: #EF4444;
+  --color-apm-text: #FFFFFF;
+  --color-apm-text-secondary: #A0A0A0;
+  --glass-dark-bg: rgba(20, 20, 22, 0.78);
+  --glass-border-subtle: rgba(255, 255, 255, 0.10);
+  --glass-blur: blur(32px);
+  --glass-sat: saturate(180%);
+  --spring-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--color-apm-bg);
+  color: var(--color-apm-text);
+  -webkit-tap-highlight-color: transparent;
+}
+body { margin: 0; padding: 0; min-height: 100dvh; }
+.glass { background: var(--glass-dark-bg); backdrop-filter: var(--glass-blur) var(--glass-sat); border: 1px solid var(--glass-border-subtle); }
+.card-28 { border-radius: 28px; }
+.card-20 { border-radius: 20px; }
+.card-16 { border-radius: 16px; }
