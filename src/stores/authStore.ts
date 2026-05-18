@@ -17,6 +17,7 @@ interface AuthState {
   login: (email: string) => void
   logout: () => void
   isAdmin: () => boolean
+  setActiveRole: (role: AccountType) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -37,6 +38,17 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => set({ user: null }),
       isAdmin: () => get().user?.accountType === 'admin',
+      setActiveRole: (role: AccountType) => {
+        const currentUser = get().user
+        if (currentUser) {
+          set({
+            user: {
+              ...currentUser,
+              accountType: role,
+            },
+          })
+        }
+      },
     }),
     { name: 'autopro-auth' }
   )
