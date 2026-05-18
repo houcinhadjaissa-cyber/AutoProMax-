@@ -1,101 +1,51 @@
-import { create } from 'zustand'
+import { useAuthStore, useRoleStore } from '../stores'
 
-export interface RoleAction {
-  label: string
-  page: string
-  icon: string
+interface RoleSelectorProps {
+  onClose: () => void
 }
 
-export interface RoleConfig {
-  label: string
-  homeActions: RoleAction[]
-}
+export function RoleSelector({ onClose }: RoleSelectorProps) {
+  const { setActiveRole } = useAuthStore()
+  const { allRoles, role: currentRole } = useRoleStore()
 
-export interface RoleState {
-  roleConfig: RoleConfig
-  setActiveRole: (role: 'customer' | 'business' | 'employee') => void
-  allRoles: {
-    customer: RoleConfig
-    business: RoleConfig
-    employee: RoleConfig
+  const handleRoleSelect = (roleKey: 'customer' | 'business' | 'employee') => {
+    setActiveRole(roleKey)
+    onClose()
   }
-  role: 'customer' | 'business' | 'employee'
-  setRole: (role: 'customer' | 'business' | 'employee') => void
-}
 
-export const useRoleStore = create<RoleState>((set) => ({
-  role: 'customer',
-  roleConfig: {
-    label: 'Customer',
-    homeActions: [
-      { label: 'Garage', page: 'garage', icon: 'car' },
-      { label: 'Search', page: 'search', icon: 'search' },
-      { label: 'Orders', page: 'track', icon: 'package' },
-      { label: 'Help', page: 'help', icon: 'help' },
-    ],
-  },
-  allRoles: {
-    customer: {
-      label: 'Customer',
-      homeActions: [
-        { label: 'Garage', page: 'garage', icon: 'car' },
-        { label: 'Search', page: 'search', icon: 'search' },
-        { label: 'Orders', page: 'track', icon: 'package' },
-        { label: 'Help', page: 'help', icon: 'help' },
-      ],
-    },
-    business: {
-      label: 'Business',
-      homeActions: [
-        { label: 'Dashboard', page: 'pro', icon: 'chart' },
-        { label: 'Products', page: 'epc', icon: 'package' },
-        { label: 'Orders', page: 'track', icon: 'truck' },
-        { label: 'Analytics', page: 'pro', icon: 'chart' },
-      ],
-    },
-    employee: {
-      label: 'Employee',
-      homeActions: [
-        { label: 'Tasks', page: 'help', icon: 'check' },
-        { label: 'Schedule', page: 'track', icon: 'clock' },
-        { label: 'Messages', page: 'chat', icon: 'chat' },
-        { label: 'Profile', page: 'profile', icon: 'user' },
-      ],
-    },
-  },
-  setActiveRole: (role) => {
-    set({
-      role,
-      roleConfig: {
-        customer: {
-          label: 'Customer',
-          homeActions: [
-            { label: 'Garage', page: 'garage', icon: 'car' },
-            { label: 'Search', page: 'search', icon: 'search' },
-            { label: 'Orders', page: 'track', icon: 'package' },
-            { label: 'Help', page: 'help', icon: 'help' },
-          ],
-        },
-        business: {
-          label: 'Business',
-          homeActions: [
-            { label: 'Dashboard', page: 'pro', icon: 'chart' },
-            { label: 'Products', page: 'epc', icon: 'package' },
-            { label: 'Orders', page: 'track', icon: 'truck' },
-            { label: 'Analytics', page: 'pro', icon: 'chart' },
-          ],
-        },
-        employee: {
-          label: 'Employee',
-          homeActions: [
-            { label: 'Tasks', page: 'help', icon: 'check' },
-            { label: 'Schedule', page: 'track', icon: 'clock' },
-            { label: 'Messages', page: 'chat', icon: 'chat' },
-            { label: 'Profile', page: 'profile', icon: 'user' },
-          ],
-        },
-      }[role],
-    })
-  },
-  setRole: (role) => set({ role }),
-}))
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 bg-black/50">
+      <div
+        className="w-full max-w-md p-6 rounded-2xl"
+        style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.1)' }}
+      >
+        <h2 className="text-lg font-bold text-white mb-4">Select Role</h2>
+        
+        {Object.entries(allRoles).map(([key, config]) => (
+          <button
+            key={key}
+            onClick={() => handleRoleSelect(key as 'customer' | 'business' | 'employee')}
+            className="w-full p-4 mb-3 rounded-xl text-left transition-colors"
+            style={{
+              background: currentRole === key ? '#2563EB' : '#242424',
+              border: `1px solid ${currentRole === key ? 'rgba(37,99,235,0.3)' : 'rgba(255,255,255,0.07)'}`,
+            }}
+          >
+            <p className="text-white font-semibold">{config.label}</p>
+            <p className="text-gray-400 text-sm mt-1">
+              {config.homeActions.length} quick actions
+            </p>
+          </button>
+        ))}
+
+        <button
+          onClick={onClose}
+          className="w-full py-3 rounded-xl font-semibold mt-2"
+          style={{ background: '#242424', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  )
+              }
